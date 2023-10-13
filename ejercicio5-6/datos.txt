@@ -1,0 +1,2 @@
+09-10-2023 16:44:01;Paco;Calle del perro;jamonyqueso;5;napolitana;2;;
+09-10-2023 16:46:21;Luis;Calle del gato;mozzarela;;;;;5
