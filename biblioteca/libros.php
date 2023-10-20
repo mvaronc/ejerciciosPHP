@@ -8,10 +8,7 @@ class libros {
         $sql = "INSERT INTO libros (idLibro, titulo,genero, idAutor, numeroPaginas,numeroEjemplares) VALUES (NULL,'$datosLibro[titulo]','$datosLibro[genero]' '$datosLibro[idAutor]', $datosLibro[nPaginas], $datosLibro[nEjemplares]);";
         return $this->conexion->query($sql);
     }
-    public function insertaLibro($idLibro, $titulo, $genero, $idAutor, $nPaginas, $nEjemplares) {
-        $sql = "INSERT INTO libros (idLibro, titulo,genero, idAutor, numeroPaginas,numeroEjemplares) VALUES (NULL,'$titulo','$genero' '$idAutor', $nPaginas, $nEjemplares);";
-        return $this->conexion->query($sql);
-    }
+   
     /**
      * Función actualizaLibro
      * Si $datosLibro es un array, actualiza los datos de ese libro
@@ -21,19 +18,19 @@ class libros {
 
     public function actualizaLibro($datosLibro) {
         $miSet = "SET ";
-        if($datosLibro[titulo]){
+        if($datosLibro['titulo']){
             $miSet .= "titulo = '$datosLibro[titulo]',";
         }
-        if($datosLibro[genero]){
+        if($datosLibro['genero']){
             $miSet .= "genero = '$datosLibro[genero]',";
         }
-        if($datosLibro[idAutor]){
+        if($datosLibro['idAutor']){
             $miSet .= "idAutor = $datosLibro[idAutor],";
         }
-        if($datosLibro[nPaginas]){
+        if($datosLibro['nPaginas']){
             $miSet .= "numeroPaginas = $datosLibro[nPaginas],";
         }
-        if($datosLibro[nEjemplares]){
+        if($datosLibro['nEjemplares']){
             $miSet .= "numeroEjemplares = $datosLibro[nEjemplares],";
         }
         $miSet = substr($miSet, 0, -1);
@@ -53,43 +50,45 @@ class libros {
      * Pero siempre es un array de arrays
      */
 
-    public funcion consultarLibros($idLibro=NULL) {
-        if($idLibro == NULL){
-        $sql = "SELECT * FROM libros WHERE idLibro = $idLibro;";
-        $datos=$this->conexion->query($sql);
-        return $datos->fetch_all();
-        }else{
-            $sql = "SELECT * FROM libros;";
-            $datos=$this->conexion->query($sql);
-            return $datos->fetch_all();
-        }
-    }
-    public function consultarLibros($titulo=NULL, $genero=NULL, $idAutor=NULL, $nPaginas=NULL, $nEjemplares=NULL){
+    public function consultarLibros($idLibro=NULL,$titulo=NULL, $genero=NULL, $idAutor=NULL, $nPaginas=NULL, $nEjemplares=NULL){
+
         $miWhere = "WHERE ";
-        if($titulo){
-            $miWhere .= "titulo LIKE '%$titulo%' AND ";
+        if($idLibro){
+            $miWhere .= "idLibro = $idLibro AND ";
 
-        }
-        if($genero){
-            $miWhere .= "genero LIKE '%$genero%' AND ";
+        }else{
+            if($titulo){
+                $miWhere .= "titulo LIKE '%$titulo%' AND ";
 
-        }
-        if($idAutor){
-            $miWhere .= "idAutor = $idAutor AND ";
+            }
+            if($genero){
+                $miWhere .= "genero LIKE '%$genero%' AND ";
 
-        }
-        if($nPaginas){
-            $miWhere .= "numeroPaginas = $nPaginas AND ";
+            }
+            if($idAutor){
+                $miWhere .= "idAutor = $idAutor AND ";
 
-        }
-        if($nEjemplares){
-            $miWhere .= "numeroEjemplares = $nEjemplares AND ";
+            }
+            if($nPaginas){
+                $miWhere .= "numeroPaginas = $nPaginas AND ";
 
+            }
+            if($nEjemplares){
+                $miWhere .= "numeroEjemplares = $nEjemplares AND ";
+
+            }
+            if($miWhere == "WHERE "){ //Caso en que no hay parámetros devolvemos todos los libros
+                $miWhere = "";
+            }
+            else{
+                $miWhere = substr($miWhere, 0, -5);
+                
+            }
         }
-        $miWhere = substr($miWhere, 0, -5);
+        
         $sql = "SELECT * FROM libros $miWhere;";
         $datos=$this->conexion->query($sql);
-        return $datos->fetch_all();
+        return $datos->fetch_all(MYSQLI_ASSOC);
     }
 }
 ?>
