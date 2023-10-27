@@ -1,4 +1,6 @@
 <?php
+
+//Este archivo solo vale para hacer pruebas de las clases
     require_once("config.php");
     $conexion = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_DATABASE);
     if ($conexion->connect_errno) {
