@@ -1,12 +1,27 @@
 <?php
 class libros {
     private $conexion;
+    private function limpiarDatos($datos){
+        $datosLimpios = [];
+        foreach ($datos as $key => $value) {
+            $datosLimpios[$key] = $this->conexion->real_escape_string($value);
+        }
+        return $datosLimpios;
+    }
+
+
     public function __construct($conexion=NULL) {
-        this.$conexion = $conexion;
+        $this->conexion = $conexion;
     }
     public function insertaLibro($datosLibro) {
-        $sql = "INSERT INTO libros (idLibro, titulo,genero, idAutor, numeroPaginas,numeroEjemplares) VALUES (NULL,'$datosLibro[titulo]','$datosLibro[genero]' '$datosLibro[idAutor]', $datosLibro[nPaginas], $datosLibro[nEjemplares]);";
-        return $this->conexion->query($sql);
+        $datosLibro = $this->limpiarDatos($datosLibro);
+        $sql = "INSERT INTO libros (idLibro, titulo,genero, idAutor, numeroPaginas,numeroEjemplares) VALUES (NULL ,'$datosLibro[titulo]','$datosLibro[genero]', '$datosLibro[idAutor]', $datosLibro[nPaginas], $datosLibro[nEjemplares]);";
+        try{
+           return $this->conexion->query($sql);
+        }catch(Exception $e){
+            echo $e->getMessage();
+        }
+        
     }
    
     /**
@@ -54,7 +69,7 @@ class libros {
 
         $miWhere = "WHERE ";
         if($idLibro){
-            $miWhere .= "idLibro = $idLibro AND ";
+            $miWhere .= "idLibro = $idLibro";
 
         }else{
             if($titulo){
@@ -79,15 +94,15 @@ class libros {
             }
             if($miWhere == "WHERE "){ //Caso en que no hay parámetros devolvemos todos los libros
                 $miWhere = "";
-            }
-            else{
-                $miWhere = substr($miWhere, 0, -5);
-                
-            }
+            }else{
+                 $miWhere = substr($miWhere, 0, -5);
+            }    
+            
         }
         
         $sql = "SELECT * FROM libros $miWhere;";
-        $datos=$this->conexion->query($sql);
+        
+        $datos=$this->conexion->query($sql); 
         return $datos->fetch_all(MYSQLI_ASSOC);
     }
 }

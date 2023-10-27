@@ -4,8 +4,16 @@ class autores{
     public function __construct($conexion=NULL) {   
         $this->conexion = $conexion;
     }
+    private function limpiarDatos($datos){
+        $datosLimpios = [];
+        foreach ($datos as $key => $value) {
+            $datosLimpios[$key] = $this->conexion->real_escape_string($value);
+        }
+        return $datosLimpios;
+    }
     public function insertaAutor($datosAutor) {
-        $sql = "INSERT INTO autores (idAutor, nombre, apellidos,pais) VALUES (NULL,'$datosAutor[nombre]','$datosAutor[apellidos]','$datosAutor[pais]);";
+        $datosAutor = $this->limpiarDatos($datosAutor);
+        $sql = "INSERT INTO autores (idAutor, Nombre, Apellidos,Pais) VALUES (NULL,'$datosAutor[Nombre]','$datosAutor[Apellidos]','$datosAutor[Pais]');";
         return $this->conexion->query($sql);
     }
     /**
@@ -42,8 +50,8 @@ class autores{
     public function consultaAutores($idAutor=NULL,$nombre=NULL,$apellidos=NULL,$pais=NULL){
         if($idAutor){
             $sql="SELECT * FROM autores WHERE idAutor = $idAutor;";
-            $datos=this->conexion->query($sql);
-            return $datos->fetch_all();
+            $datos=$this->conexion->query($sql);
+            return $datos->fetch_all(MYSQLI_ASSOC);
         }else{
             $miWhere = "WHERE ";
             if($nombre){
@@ -60,7 +68,7 @@ class autores{
             }else{
             $miWhere = substr($miWhere, 0, -5);
             }
-            $sql = "SELECT * FROM autores $miWhere;";
+            $sql = "SELECT * FROM autores $miWhere order by Apellidos;";
             $datos = $this->conexion->query($sql);
             return $datos->fetch_all(MYSQLI_ASSOC);
         }

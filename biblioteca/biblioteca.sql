@@ -34,13 +34,6 @@ CREATE TABLE `autores` (
   `Pais` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Tabla de autores ';
 
---
--- Volcado de datos para la tabla `autor`
---
-
-INSERT INTO `autores` (`idAutor`, `Nombre`, `Apellidos`, `Pais`) VALUES
-(1, 'Miguel', 'Cervantes Saavedra', 'España'),
-(2, 'Miguel', 'de Unamuno y Jugo', 'España');
 
 -- --------------------------------------------------------
 
