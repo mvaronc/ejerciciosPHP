@@ -55,13 +55,13 @@ td a{
     border-radius: 5%;
 }
 .exito{
-    background-color: lawngreen;
+    background-color: green;
     color: #fff;
     padding: 10px;
     text-align: center;
 }
 .error{
-    background-color: lightcoral;
+    background-color: red;
     color: #fff;
     padding: 10px;
     text-align: center;
