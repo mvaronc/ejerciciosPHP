@@ -1,2 +1,2 @@
 # ejerciciosPHP
-Resolución de los ejercicios propuestos en para LAMP en la asignatura DESW
+Resolución de los ejercicios propuestos para stack LAMP en la asignatura DWES
