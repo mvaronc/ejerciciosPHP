@@ -1,0 +1,9 @@
+<?php
+/** Constantes de conexión con SGBD MYSQL o MARIADB */
+define("DB_HOST", "172.21.0.2");
+define("DB_USER", "biblio2");
+define("DB_PASS", "usuario");
+define("DB_DATABASE", "biblio2");
+define("RUTA_APP","");  // Ruta URL hasta la carpeta raiz
+
+?>
