@@ -44,6 +44,7 @@
         <input type="text" name="titulo" id="titulo">
         <label for="genero">Genero</label>
          <select name="genero">
+            <option value="">Todas</option>
             <option>Narrativa</option>
             <option>Lírica</option>
             <option>Teatro</option>
@@ -57,6 +58,7 @@
                 if ($conexion->connect_errno) {
                     echo "Fallo al conectar a MySQL: (" . $conexion->connect_errno . ") " . $conexion->connect_error; 
                 }
+                echo "<option value=''>Todos</option>";
                 $autores = new autores($conexion);
                 $listaAutores = $autores->consultaAutores();
                 foreach($listaAutores as $autor){
