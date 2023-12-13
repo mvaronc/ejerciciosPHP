@@ -8,7 +8,10 @@ class seguridad{
         $this->session = false;
         $this->user = "";
         session_start();
-        if(isset($_SESSION['user'])){
+        if(isset($_SESSION['user']) and 
+            ($_SESSION['IPRemoto']==$_SERVER['REMOTE_ADDR'])
+            and 
+            $_SESSION['puertoRemoto']==$_SERVER['REMOTE_PORT']){
             $this->session = true;
             $this->user = $_SESSION['user'];
         }
@@ -26,6 +29,8 @@ class seguridad{
                 $this->user = $user['login'];
                 $_SESSION['user'] = $user['login'];
                 $_SESSION['rol'] = $user['rol'];
+                $_SESSION['IPRemoto']=$_SERVER['REMOTE_ADDR'];
+                $_SESSION['puertoRemoto']=$_SERVER['REMOTE_PORT'];
                 return true;
             }
         }
@@ -34,8 +39,10 @@ class seguridad{
    public function logout(){
         $this->session = false;
         $this->user = "";
-        unset($_SESSION['user']);
-        unset($_SESSION['rol']);
+        foreach($_SESSION as $k => $v){
+            unset($_SESSION[$k]);
+        }
+    
     }
     public function isLogged(){
         return $this->session;
@@ -48,7 +55,7 @@ class seguridad{
     }
     public function secureRol($rol=NULL){
 
-        if($rol==NULL){//será para todo los roles, devlvemos si hay sesion;
+        if($rol==NULL){//será para todo los roles, devolvemos si hay sesion;
             return $this->isLogged();
         }
         if(!is_array($rol)){
