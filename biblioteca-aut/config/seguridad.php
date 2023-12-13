@@ -8,6 +8,7 @@ class seguridad{
         $this->session = false;
         $this->user = "";
         session_start();
+        // Comprobamos si hay una sesion activa y si coincide con la IP y puerto remoto
         if(isset($_SESSION['user']) and 
             ($_SESSION['IPRemoto']==$_SERVER['REMOTE_ADDR'])
             and 
