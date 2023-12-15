@@ -3,10 +3,12 @@ class seguridad{
     private $session;
     private $user;
     private $conexion;
+    private $rol;
     public function __construct($conexion){
         $this->conexion = $conexion;
         $this->session = false;
         $this->user = "";
+        $this->rol = "";
         session_start();
         // Comprobamos si hay una sesion activa y si coincide con la IP y puerto remoto
         if(isset($_SESSION['user']) and 
@@ -15,6 +17,18 @@ class seguridad{
             $_SESSION['puertoRemoto']==$_SERVER['REMOTE_PORT']){
             $this->session = true;
             $this->user = $_SESSION['user'];
+            $this->rol = $_SESSION['rol'];
+            
+        }else{
+            //Es posible que alguien haya robado la sesion
+            //Destruimos la sesion y creamos una entrada  en error.log con fecha, hora y IP
+            $this->logout();
+            $fecha = date("d-m-Y H:i:s");
+            $ip = $_SERVER['REMOTE_ADDR'];
+            $puerto = $_SERVER['REMOTE_PORT'];
+            $error = "Intento de robo de sesion el $fecha desde la IP $ip y puerto $puerto";
+            error_log("$fecha : $error");
+            
         }
     }
 
@@ -52,7 +66,7 @@ class seguridad{
         return $this->user;
     }
     public function getRol(){
-        return $_SESSION['rol'];
+        return $this->rol;
     }
     public function secureRol($rol=NULL){
 
