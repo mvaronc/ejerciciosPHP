@@ -11,10 +11,7 @@ class seguridad{
         $this->rol = "";
         session_start();
         // Comprobamos si hay una sesion activa y si coincide con la IP y puerto remoto
-        if(isset($_SESSION['user']) and 
-            ($_SESSION['IPRemoto']==$_SERVER['REMOTE_ADDR'])
-            and 
-            $_SESSION['puertoRemoto']==$_SERVER['REMOTE_PORT']){
+        if(isset($_SESSION['user'])and($_SESSION['IPRemoto']==$_SERVER['REMOTE_ADDR'])){
             $this->session = true;
             $this->user = $_SESSION['user'];
             $this->rol = $_SESSION['rol'];
@@ -25,8 +22,7 @@ class seguridad{
             $this->logout();
             $fecha = date("d-m-Y H:i:s");
             $ip = $_SERVER['REMOTE_ADDR'];
-            $puerto = $_SERVER['REMOTE_PORT'];
-            $error = "Intento de robo de sesion el $fecha desde la IP $ip y puerto $puerto";
+            $error = "Intento de robo de sesion el $fecha desde la IP $ip";
             error_log("$fecha : $error");
             
         }
@@ -45,7 +41,6 @@ class seguridad{
                 $_SESSION['user'] = $user['login'];
                 $_SESSION['rol'] = $user['rol'];
                 $_SESSION['IPRemoto']=$_SERVER['REMOTE_ADDR'];
-                $_SESSION['puertoRemoto']=$_SERVER['REMOTE_PORT'];
                 return true;
             }
         }
